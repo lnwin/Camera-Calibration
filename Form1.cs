@@ -61,7 +61,14 @@ namespace 相机标定
 
         private void button1_Click(object sender, EventArgs e)//生成校准矩阵文件
         {
-
+            board_size.Width = Convert.ToInt16(textBox4.Text);
+            board_size.Height = Convert.ToInt16(textBox5.Text);
+            pic_n = Convert.ToInt16(textBox3.Text);
+            pic_h = Convert.ToInt16(textBox7.Text);
+            pic_w = Convert.ToInt16(textBox6.Text);
+            board_N = board_size.Width * board_size.Height;
+            count_time = Convert.ToInt16(textBox8.Text);
+            accuracy = Convert.ToDouble(textBox9.Text);
 
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "请选择文件路径";
@@ -83,25 +90,34 @@ namespace 相机标定
             //Matrix
             foreach (FileInfo file in folder.GetFiles("*.jpg").OrderBy(p => p.CreationTime))//定标版图片扫描处理
             {
-                image_count++;
-                // image = new Bitmap(file.FullName);
-                //获取图像的BitmapData对像 
-                // Image<Bgr, byte> imageInput = new Image<Bgr, byte>(new Bitmap(Image.FromFile(filename)));
-                Image<Bgr, byte> imageInput = new Image<Bgr, byte>(new Bitmap(Image.FromFile(file.FullName)));
-                if (image_count == 1)
+                try
                 {
-                    image_size.Width = imageInput.Cols;
-                    image_size.Height = imageInput.Rows;
-                    textBox1.AppendText(image_size.Width.ToString() + "\r\n" + image_size.Height.ToString() + "\r\n");
+                    image_count++;
+                    // image = new Bitmap(file.FullName);
+                    //获取图像的BitmapData对像 
+                    // Image<Bgr, byte> imageInput = new Image<Bgr, byte>(new Bitmap(Image.FromFile(filename)));
+                    Image<Bgr, byte> imageInput = new Image<Bgr, byte>(new Bitmap(Image.FromFile(file.FullName)));
+                    if (image_count == 1)
+                    {
+                        image_size.Width = imageInput.Cols;
+                        image_size.Height = imageInput.Rows;
+                        textBox1.AppendText(image_size.Width.ToString() + "\r\n" + image_size.Height.ToString() + "\r\n");
+                    }
+                    CvInvoke.CvtColor(imageInput, view_gray, ColorConversion.Rgb2Gray);
+                    CvInvoke.FindChessboardCorners(view_gray, board_size, Npointsl, CalibCbType.AdaptiveThresh);
+                    corner_count[image_count - 1] = new PointF[board_N];
+                    for (int S = 0; S < board_N; S++)
+                    {
+
+                        corner_count[image_count - 1][S] = Npointsl.ToArray()[S];
+
+                    }
+
                 }
-                CvInvoke.CvtColor(imageInput, view_gray, ColorConversion.Rgb2Gray);
-                CvInvoke.FindChessboardCorners(view_gray, board_size, Npointsl, CalibCbType.AdaptiveThresh);
-                corner_count[image_count - 1] = new PointF[board_N];
-                for (int S = 0; S < board_N; S++)
+                catch
                 {
-
-                    corner_count[image_count - 1][S] = Npointsl.ToArray()[S];
-
+                   // MessageBox.Show("图片质量不佳：" + file.FullName);
+                    textBox1.AppendText("图片质量不佳：" + file.Name + "\r\n");
                 }
                 textBox1.AppendText(image_count.ToString() + "\r\n");
 
@@ -150,8 +166,10 @@ namespace 相机标定
                     MessageBox.Show(ex.Message);
                 }
             }
-
         }
+
+
+
 
         private void button2_Click(object sender, EventArgs e) //畸变校准测试
         {

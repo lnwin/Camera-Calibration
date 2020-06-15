@@ -50,6 +50,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -59,7 +60,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.textBox10 = new System.Windows.Forms.TextBox();
-            this.button6 = new System.Windows.Forms.Button();
             this.imageBox1 = new Emgu.CV.UI.ImageBox();
             this.imageBox2 = new Emgu.CV.UI.ImageBox();
             this.panel1.SuspendLayout();
@@ -164,7 +164,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 21);
             this.textBox3.TabIndex = 6;
-            this.textBox3.Text = "4";
+            this.textBox3.Text = "47";
             // 
             // textBox4
             // 
@@ -172,7 +172,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(100, 21);
             this.textBox4.TabIndex = 6;
-            this.textBox4.Text = "6";
+            this.textBox4.Text = "9";
             // 
             // textBox5
             // 
@@ -180,7 +180,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 21);
             this.textBox5.TabIndex = 6;
-            this.textBox5.Text = "7";
+            this.textBox5.Text = "6";
             // 
             // textBox6
             // 
@@ -188,7 +188,7 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 21);
             this.textBox6.TabIndex = 6;
-            this.textBox6.Text = "16";
+            this.textBox6.Text = "22";
             // 
             // textBox7
             // 
@@ -196,7 +196,7 @@
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(100, 21);
             this.textBox7.TabIndex = 6;
-            this.textBox7.Text = "16";
+            this.textBox7.Text = "20";
             // 
             // textBox8
             // 
@@ -204,7 +204,7 @@
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(100, 21);
             this.textBox8.TabIndex = 6;
-            this.textBox8.Text = "30";
+            this.textBox8.Text = "50";
             // 
             // textBox9
             // 
@@ -212,7 +212,7 @@
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 21);
             this.textBox9.TabIndex = 6;
-            this.textBox9.Text = "00.1";
+            this.textBox9.Text = "0.05";
             // 
             // label8
             // 
@@ -266,6 +266,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(267, 402);
             this.panel1.TabIndex = 8;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(97, 333);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(82, 58);
+            this.button6.TabIndex = 10;
+            this.button6.Text = "读取矫正矩阵";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 
@@ -348,16 +358,6 @@
             this.textBox10.Size = new System.Drawing.Size(127, 21);
             this.textBox10.TabIndex = 3;
             // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(97, 333);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(82, 58);
-            this.button6.TabIndex = 10;
-            this.button6.Text = "读取矫正矩阵";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
             // imageBox1
             // 
             this.imageBox1.Location = new System.Drawing.Point(648, 12);
@@ -372,7 +372,7 @@
             this.imageBox2.Location = new System.Drawing.Point(648, 217);
             this.imageBox2.Name = "imageBox2";
             this.imageBox2.Size = new System.Drawing.Size(294, 197);
-            this.imageBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imageBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imageBox2.TabIndex = 2;
             this.imageBox2.TabStop = false;
             // 
