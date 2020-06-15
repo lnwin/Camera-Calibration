@@ -43,6 +43,11 @@ namespace 相机标定
         MCvPoint3D32f temple_points = new MCvPoint3D32f();//创建初始角点坐标集合
         Mat cameraMatrix = new Mat(3, 3, DepthType.Cv32F, 1);//相机内参矩阵
         Mat distCoeffs = new Mat(1, 5, DepthType.Cv32F, 1);//相机5个畸变参数
+        Mat cameraMatrix_T = new Mat(3, 3, DepthType.Cv64F, 1);//相机内参矩阵
+        Mat distCoeffs_T = new Mat(1, 5, DepthType.Cv64F, 1);//相机5个畸变参数
+        string[] A = new string[9];
+        string[] B = new string[15];
+        char[] separator = { ',' };////需要空空格代替回车换行
 
         #endregion
         private void Form1_Load(object sender, EventArgs e)
@@ -112,7 +117,7 @@ namespace 相机标定
                         corner_count[image_count - 1][S] = Npointsl.ToArray()[S];
 
                     }
-
+                    imageInput.Dispose();
                 }
                 catch
                 {
@@ -120,10 +125,11 @@ namespace 相机标定
                     textBox1.AppendText("图片质量不佳：" + file.Name + "\r\n");
                 }
                 textBox1.AppendText(image_count.ToString() + "\r\n");
+                
 
             }
 
-
+            
             for (T = 0; T < pic_n; T++) ///把角坐标保存数组
             {
                 object_list.Clear();
@@ -160,12 +166,15 @@ namespace 相机标定
                     textBox1.AppendText("矩阵输出：" + matrix_path + "\r\n" + "-----------------------------------------------------" + "\r\n");
                     // cameraMatrix(1,1) =
                     MessageBox.Show("标定成功！");
+                    storage_came.Dispose();
+                    storage_dist.Dispose();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
+            GC.Collect();
         }
 
 
@@ -180,6 +189,7 @@ namespace 相机标定
             {
                 textBox1.Text += dialog1.FileName + "---------------------------------------------" + "\r\n";
             }
+           
             FileStream filereader = new FileStream((@matrix_path + "//" + "cameraMatrix.txt"), FileMode.Open, FileAccess.Read);
             StreamReader streamReader = new StreamReader(filereader);
             CamerMatrix_value = streamReader.ReadToEnd();
@@ -196,11 +206,7 @@ namespace 相机标定
             distCoeffs_value = distCoeffs_value.Substring(distCoeffs_start_index + 1, distCoeffs_end_index - distCoeffs_start_index - 1);
             distCoeffs_value = distCoeffs_value.Replace("\r\n", "");
             textBox1.Text += distCoeffs_value + "\r\n" + "-----------------------------------------------------" + "\r\n";
-            Mat cameraMatrix_T = new Mat(3, 3, DepthType.Cv64F, 1);//相机内参矩阵
-            Mat distCoeffs_T = new Mat(1, 5, DepthType.Cv64F, 1);//相机5个畸变参数
-            string[] A = new string[9];
-            string[] B = new string[15];
-            char[] separator = { ',' };////需要空空格代替回车换行
+                   
             A = CamerMatrix_value.Split(separator);
             B = distCoeffs_value.Split(separator);
             int k = 0;
@@ -225,10 +231,12 @@ namespace 相机标定
             Image<Bgr, byte> newimage = imageSource.Clone();
             CvInvoke.Undistort(imageSource, newimage, cameraMatrix_T, distCoeffs_T);
             imageBox1.Image = imageSource;
-            imageBox2.Image = newimage;
-            CvInvoke.WaitKey(500);
-
-
+            imageBox2.Image = newimage; 
+            filereader1.Close();          
+            filereader.Close();
+            //imageBox1.Image.Dispose();
+            //imageBox2.Image.Dispose();
+            GC.Collect();
 
         }
 
